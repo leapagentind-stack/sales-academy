@@ -1,9 +1,11 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Star, Users, Clock, BarChart3, Zap, Target, TrendingUp, Award, ChevronDown, ArrowRight, Menu, X, Facebook, Twitter, Linkedin, Instagram } from 'lucide-react';
 
 export default function SalesLandingPage() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [faqOpen, setFaqOpen] = useState(0);
+  const navigate = useNavigate();
 
   const courses = [
     {
@@ -131,9 +133,15 @@ export default function SalesLandingPage() {
             <a href="#about" className="text-sm text-gray-600 hover:text-gray-900 transition">About</a>
             <div className="flex gap-3">
               <button className="px-4 py-2 text-sm border border-gray-300 rounded-md hover:bg-gray-50">Sign In</button>
-              <button className="px-4 py-2 text-sm bg-blue-600 text-white rounded-md hover:bg-blue-700">Get Started</button>
+              <button className="px-4 py-2 text-sm bg-blue-600 text-white rounded-md hover:bg-blue-700" onClick={() => navigate('/register')}>Get Started</button>
             </div>
           </div>
+          {/* <button
+            className="px-4 py-2 text-sm bg-blue-600 text-white rounded-md hover:bg-blue-700"
+            onClick={() => navigate('/register')} // navigate to registration page
+          >
+            Get Started
+          </button> */}
 
           <button className="md:hidden" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
             {mobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
@@ -384,9 +392,8 @@ export default function SalesLandingPage() {
                   <h3 className="font-semibold text-left">{faq.question}</h3>
                   <ChevronDown
                     size={20}
-                    className={`text-blue-600 flex-shrink-0 transition-transform duration-300 ${
-                      faqOpen === idx ? 'rotate-180' : ''
-                    }`}
+                    className={`text-blue-600 flex-shrink-0 transition-transform duration-300 ${faqOpen === idx ? 'rotate-180' : ''
+                      }`}
                   />
                 </button>
 
