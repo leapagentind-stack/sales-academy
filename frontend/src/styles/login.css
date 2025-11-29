@@ -1,0 +1,63 @@
+/* Full page center layout */
+.login-container {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #f3f7fd;
+  font-family: "Poppins", sans-serif;
+}
+
+/* Card box */
+.login-box {
+  background: #ffffff;
+  padding: 35px 30px;
+  width: 350px;
+  border-radius: 10px;
+  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+/* Title */
+.login-box h2 {
+  text-align: center;
+  margin-bottom: 25px;
+  color: #333;
+  font-weight: 600;
+}
+
+/* Input fields */
+.login-box input,
+.login-box select {
+  width: 100%;
+  padding: 12px;
+  margin: 8px 0 15px 0;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 14px;
+  transition: 0.2s;
+}
+
+/* Input focus */
+.login-box input:focus,
+.login-box select:focus {
+  border-color: #6c63ff;
+  outline: none;
+  box-shadow: 0 0 4px rgba(108, 99, 255, 0.3);
+}
+
+/* Button */
+.login-box button {
+  width: 100%;
+  padding: 12px;
+  background: #6c63ff;
+  border: none;
+  color: white;
+  font-size: 15px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.25s;
+}
+
+.login-box button:hover {
+  background: #554df2;
+}

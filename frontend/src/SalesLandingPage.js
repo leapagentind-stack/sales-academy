@@ -1,8 +1,13 @@
+import { useNavigate } from "react-router-dom";
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Star, Users, Clock, BarChart3, Zap, Target, TrendingUp, Award, ChevronDown, ArrowRight, Menu, X, Facebook, Twitter, Linkedin, Instagram } from 'lucide-react';
 
+
 export default function SalesLandingPage() {
+  
+  const navigate = useNavigate();
+  
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [faqOpen, setFaqOpen] = useState(0);
   const navigate = useNavigate();
@@ -132,6 +137,14 @@ export default function SalesLandingPage() {
             <a href="#courses" className="text-sm text-gray-600 hover:text-gray-900 transition">Courses</a>
             <a href="#about" className="text-sm text-gray-600 hover:text-gray-900 transition">About</a>
             <div className="flex gap-3">
+            <button
+              onClick={() => navigate("/login")}
+              className="px-4 py-2 text-sm border border-gray-300 rounded-md hover:bg-gray-50"
+              >
+              Sign In
+             </button>
+
+              <button className="px-4 py-2 text-sm bg-blue-600 text-white rounded-md hover:bg-blue-700">Get Started</button>
               <button className="px-4 py-2 text-sm border border-gray-300 rounded-md hover:bg-gray-50">Sign In</button>
               <button className="px-4 py-2 text-sm bg-blue-600 text-white rounded-md hover:bg-blue-700" onClick={() => navigate('/register')}>Get Started</button>
             </div>
@@ -155,7 +168,13 @@ export default function SalesLandingPage() {
               <a href="#courses" className="block text-sm hover:text-blue-600">Courses</a>
               <a href="#about" className="block text-sm hover:text-blue-600">About</a>
               <div className="flex flex-col gap-2 pt-2">
-                <button className="w-full px-4 py-2 text-sm border border-gray-300 rounded-md">Sign In</button>
+                <button
+                  onClick={() => navigate("/login")}
+                  className="w-full px-4 py-2 text-sm border border-gray-300 rounded-md"
+                  >
+                   Sign In
+                </button>
+
                 <button className="w-full px-4 py-2 text-sm bg-blue-600 text-white rounded-md">Get Started</button>
               </div>
             </div>
