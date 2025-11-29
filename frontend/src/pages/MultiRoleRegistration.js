@@ -389,7 +389,7 @@ const MultiRoleRegistration = () => {
                         </Checkbox.Group>
                       </Form.Item>
                     )}
-                    {(program === "CRM Courses" || program === "Both Sales and CRM") && (
+                    {(program === "CRM Clinical Research Courses" || program === "Both Sales and CRM") && (
                       <Form.Item name="crmSelections" label="CRM Cl Courses (select any)">
                         <Checkbox.Group style={{ width: "100%" }}>
                           <Row gutter={[8, 8]}>
