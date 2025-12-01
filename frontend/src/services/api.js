@@ -3,9 +3,14 @@ import axios from "axios";
 const API = "http://localhost:5000/api/auth"; // adjust if needed
 
 export const loginUser = async (data) => {
-  return await axios.post(`${API}/login`, data);
+  if (data.role === "student") {
+    return await axios.post("http://localhost:5000/api/students/login", data);
+  } else if (data.role === "teacher") {
+    return await axios.post("http://localhost:5000/api/teachers/login", data);
+  }
 };
-import axios from 'axios';
+
+
 
 const API_BASE_URL = 'http://localhost:5000/api';
 

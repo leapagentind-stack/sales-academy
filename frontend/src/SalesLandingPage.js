@@ -1,6 +1,5 @@
 import { useNavigate } from "react-router-dom";
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 import { Star, Users, Clock, BarChart3, Zap, Target, TrendingUp, Award, ChevronDown, ArrowRight, Menu, X, Facebook, Twitter, Linkedin, Instagram } from 'lucide-react';
 
 
@@ -10,7 +9,7 @@ export default function SalesLandingPage() {
   
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [faqOpen, setFaqOpen] = useState(0);
-  const navigate = useNavigate();
+  
 
   const courses = [
     {
@@ -144,8 +143,8 @@ export default function SalesLandingPage() {
               Sign In
              </button>
 
-              <button className="px-4 py-2 text-sm bg-blue-600 text-white rounded-md hover:bg-blue-700">Get Started</button>
-              <button className="px-4 py-2 text-sm border border-gray-300 rounded-md hover:bg-gray-50">Sign In</button>
+              
+              
               <button className="px-4 py-2 text-sm bg-blue-600 text-white rounded-md hover:bg-blue-700" onClick={() => navigate('/register')}>Get Started</button>
             </div>
           </div>

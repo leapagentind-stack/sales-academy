@@ -1,4 +1,5 @@
-const db = require('../config/db');
+const getdb =() => global.db;
+
 
 class Teacher {
   static async create(teacherData) {
@@ -32,19 +33,19 @@ class Teacher {
       teacherData.agreeTerms
     ];
     
-    const [result] = await db.execute(query, values);
+    const [result] = await getdb().execute(query, values);
     return result;
   }
 
   static async findByEmail(email) {
     const query = 'SELECT * FROM teachers WHERE email = ?';
-    const [rows] = await db.execute(query, [email]);
+    const [rows] = await getdb().execute(query, [email]);
     return rows[0];
   }
 
   static async findById(id) {
     const query = 'SELECT * FROM teachers WHERE id = ?';
-    const [rows] = await db.execute(query, [id]);
+    const [rows] = await getdb.execute(query, [id]);
     if (rows[0]) {
       rows[0].languages = JSON.parse(rows[0].languages || '[]');
     }
@@ -58,7 +59,7 @@ class Teacher {
              teaching_mode, created_at 
       FROM teachers
     `;
-    const [rows] = await db.execute(query);
+    const [rows] = await getdb.execute(query);
     return rows;
   }
 
@@ -92,13 +93,13 @@ class Teacher {
       id
     ];
     
-    const [result] = await db.execute(query, values);
+    const [result] = await getdb.execute(query, values);
     return result;
   }
 
   static async delete(id) {
     const query = 'DELETE FROM teachers WHERE id = ?';
-    const [result] = await db.execute(query, [id]);
+    const [result] = await getdb.execute(query, [id]);
     return result;
   }
 }

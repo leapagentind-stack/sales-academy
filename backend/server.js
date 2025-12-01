@@ -39,11 +39,11 @@
 //   console.log(`Server running on port ${port}`);
 // });
 
-
 const express = require('express');
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
 require('dotenv').config();
+const connectDB = require('./config/db');
 
 
 const studentRoutes = require('./routes/studentRoutes');
@@ -70,7 +70,6 @@ app.get('/', (req, res) => {
   });
 });
 
-
 app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).json({
@@ -82,6 +81,10 @@ app.use((err, req, res, next) => {
 
 const PORT = process.env.PORT || 5000;
 
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+connectDB().then(pool => {
+  global.db = pool;
+  console.log("DB Connected.");
+  app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`);
+  });
 });

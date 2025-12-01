@@ -2,10 +2,12 @@ import React, { useState } from "react";
 import { UserOutlined, TeamOutlined, ArrowRightOutlined, ArrowLeftOutlined, CheckCircleOutlined, LoadingOutlined } from "@ant-design/icons";
 import { Form, Input, Button, Card, Progress, Select, Checkbox, Row, Col, Typography, message, Space, Spin } from "antd";
 import { studentAPI, teacherAPI } from "../services/api";
+import { useNavigate } from "react-router-dom";
 
 const { Title, Text, Paragraph } = Typography;
 const { Option } = Select;
 const { TextArea } = Input;
+
 
 const salesCourses = [
   "Sales Fundamentals",
@@ -37,6 +39,7 @@ const experienceOptions = ["0-1 years", "1-3 years", "3-5 years", "5-10 years", 
 const languagesOptions = ["English", "Hindi", "Telugu", "Tamil", "Kannada", "Malayalam", "Marathi", "Other"];
 
 const MultiRoleRegistration = () => {
+  const navigate = useNavigate();
   const [currentView, setCurrentView] = useState("landing");
   const [role, setRole] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -236,7 +239,9 @@ const MultiRoleRegistration = () => {
         localStorage.setItem("token", response.data.token);
         localStorage.setItem("user", JSON.stringify(response.data.data));
         message.success("Student registration successful!");
-        setTimeout(() => setCurrentView("success"), 1000);
+        setTimeout(() => {
+        navigate("/login"); // 👈 Go to Login page
+       }, 1000);
       }
     } catch (error) {
       const errorMessage = error.response?.data?.message || "Registration failed. Please try again.";
@@ -280,7 +285,9 @@ const MultiRoleRegistration = () => {
         localStorage.setItem("token", response.data.token);
         localStorage.setItem("user", JSON.stringify(response.data.data));
         message.success("Teacher registration successful!");
-        setTimeout(() => setCurrentView("success"), 1000);
+        setTimeout(() => {
+        navigate("/login"); 
+       }, 1000);
       }
     } catch (error) {
       const errorMessage = error.response?.data?.message || "Registration failed. Please try again.";

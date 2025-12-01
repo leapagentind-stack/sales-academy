@@ -1,63 +1,62 @@
-/* Full page center layout */
-.login-container {
+/* Full screen background */
+.login-wrapper {
   height: 100vh;
+  width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
-  background: #f3f7fd;
-  font-family: "Poppins", sans-serif;
+  background: linear-gradient(135deg, #0b1523, #0d1b2a);
 }
 
-/* Card box */
-.login-box {
+/* White card */
+.login-card {
+  width: 450px;
+  padding: 40px;
   background: #ffffff;
-  padding: 35px 30px;
-  width: 350px;
-  border-radius: 10px;
-  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.08);
+  border-radius: 20px;
+  border: 3px solid #38e6b7;
+  box-shadow: 0px 10px 35px rgba(0, 0, 0, 0.25);
+  text-align: center;
+}
+.login-card:hover {
+  border-color: rgba(59, 130, 246, 0.8) !important;
+  box-shadow: 0 20px 60px rgba(59, 130, 246, 0.3) !important;
 }
 
 /* Title */
-.login-box h2 {
-  text-align: center;
+.login-card h2 {
   margin-bottom: 25px;
-  color: #333;
-  font-weight: 600;
+  font-size: 30px;
+  font-weight: 700;
+  color: #152c55;
 }
 
 /* Input fields */
-.login-box input,
-.login-box select {
+.login-card input,
+.login-card select {
   width: 100%;
-  padding: 12px;
-  margin: 8px 0 15px 0;
-  border: 1px solid #ddd;
-  border-radius: 6px;
-  font-size: 14px;
-  transition: 0.2s;
-}
-
-/* Input focus */
-.login-box input:focus,
-.login-box select:focus {
-  border-color: #6c63ff;
+  padding: 14px;
+  margin-bottom: 20px;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  font-size: 15px;
+  background: #f1f5f9;
   outline: none;
-  box-shadow: 0 0 4px rgba(108, 99, 255, 0.3);
 }
 
-/* Button */
-.login-box button {
+/* Submit button */
+.submit-btn {
   width: 100%;
-  padding: 12px;
-  background: #6c63ff;
+  padding: 14px;
+  background: #3f88ff;
   border: none;
   color: white;
-  font-size: 15px;
-  border-radius: 6px;
+  font-size: 18px;
+  border-radius: 10px;
   cursor: pointer;
-  transition: 0.25s;
+  transition: 0.3s;
 }
 
-.login-box button:hover {
-  background: #554df2;
+.submit-btn:hover {
+  opacity: 0.9;
 }

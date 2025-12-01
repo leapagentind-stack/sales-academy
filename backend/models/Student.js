@@ -1,4 +1,4 @@
-const db = require('../config/db');
+const getdb =() => global.db;
 
 class Student {
   static async create(studentData) {
@@ -27,19 +27,19 @@ class Student {
       studentData.agreeTerms
     ];
     
-    const [result] = await db.execute(query, values);
+    const [result] = await getdb().execute(query, values);
     return result;
   }
 
   static async findByEmail(email) {
     const query = 'SELECT * FROM students WHERE email = ?';
-    const [rows] = await db.execute(query, [email]);
+    const [rows] = await getdb().execute(query, [email]);
     return rows[0];
   }
 
   static async findById(id) {
     const query = 'SELECT * FROM students WHERE id = ?';
-    const [rows] = await db.execute(query, [id]);
+    const [rows] = await getdb.execute(query, [id]);
     if (rows[0]) {
       rows[0].sales_selections = JSON.parse(rows[0].sales_selections || '[]');
       rows[0].cra_selections = JSON.parse(rows[0].cra_selections || '[]');
@@ -49,7 +49,7 @@ class Student {
 
   static async getAll() {
     const query = 'SELECT id, first_name, last_name, email, phone, current_status, city, program_interest, created_at FROM students';
-    const [rows] = await db.execute(query);
+    const [rows] = await getdb.execute(query);
     return rows;
   }
 
@@ -73,17 +73,17 @@ class Student {
       studentData.city,
       studentData.programInterest,
       JSON.stringify(studentData.salesSelections || []),
-      JSON.stringify(studentData.crmSelections || []),
+      JSON.stringify(studentData.craSelections || []),
       id
     ];
     
-    const [result] = await db.execute(query, values);
-    return result;m
+    const [result] = await getdb.execute(query, values);
+    return result;
   }
 
   static async delete(id) {
     const query = 'DELETE FROM students WHERE id = ?';
-    const [result] = await db.execute(query, [id]);
+    const [result] = await getdb.execute(query, [id]);
     return result;
   }
 }
