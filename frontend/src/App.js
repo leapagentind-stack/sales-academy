@@ -1,31 +1,21 @@
-import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import 'antd/dist/reset.css';
+import './App.css';
 
-import "./App.css";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 
-import SalesLandingPage from "./SalesLandingPage";
+import SalesLandingPage from "./SalesLandingPage";   // your file
+import MultiRoleRegistration from './components/MultiRoleRegistration';
 import Login from "./loginpage/Login";
-import "./App.css"
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-
-import SalesLandingPage from "./SalesLandingPage";
-import MultiRoleRegistration from "./pages/MultiRoleRegistration";
 
 function App() {
   return (
-    <Router>
+    <BrowserRouter>
       <Routes>
         <Route path="/" element={<SalesLandingPage />} />
-        
-        <Route path="/login" element={<Login />} />
-        {/* Landing Page */}
-        <Route path="/" element={<SalesLandingPage />} />
-
-        {/* Registration Page */}
         <Route path="/register" element={<MultiRoleRegistration />} />
-        
+        <Route path="/login" element={<Login />} />
       </Routes>
-    </Router>
+    </BrowserRouter>
   );
 }
 
