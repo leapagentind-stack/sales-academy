@@ -1,90 +1,114 @@
-const getdb =() => global.db;
+const db = require("../config/db");
 
 class Student {
-  static async create(studentData) {
-    const query = `
-      INSERT INTO students (
-        first_name, last_name, email, password, phone, current_status, 
-        branch, study_year, school_college, city, program_interest, 
-        sales_selections, cra_selections, agree_terms
-      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-    `;
-    
-    const values = [
-      studentData.firstName,
-      studentData.lastName,
-      studentData.email,
-      studentData.password,
-      studentData.phone,
-      studentData.currentStatus,
-      studentData.branch || null,
-      studentData.studyYear || null,
-      studentData.schoolCollege,
-      studentData.city,
-      studentData.programInterest,
-      JSON.stringify(studentData.salesSelections || []),
-      JSON.stringify(studentData.craSelections || []),
-      studentData.agreeTerms
-    ];
-    
-    const [result] = await getdb().execute(query, values);
-    return result;
+
+  // ✅ REGISTER
+  static async create(data) {
+    const {
+      firstName,
+      lastName,
+      email,
+      password,
+      phone,
+      currentStatus,
+      branch,
+      studyYear,
+      schoolCollege,
+      city,
+      programInterest,
+      salesSelections,
+      craSelections,
+      agreeTerms
+    } = data;
+
+    const [result] = await db.query(
+      `INSERT INTO students 
+      (
+        first_name,
+        last_name,
+        email,
+        password,
+        phone,
+        current_status,
+        branch,
+        study_year,
+        school_college,
+        city,
+        program_interest,
+        sales_selections,
+        cra_selections,
+        agree_terms
+      )
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+      [
+        firstName,
+        lastName,
+        email,
+        password,
+        phone,
+        currentStatus,
+        branch,
+        studyYear,
+        schoolCollege,
+        city,
+        programInterest,
+        JSON.stringify(salesSelections || []),
+        JSON.stringify(craSelections || []),
+        agreeTerms ? 1 : 0
+      ]
+    );
+
+    return result; // result.insertId will be used
   }
 
+  // ✅ LOGIN SUPPORT
   static async findByEmail(email) {
-    const query = 'SELECT * FROM students WHERE email = ?';
-    const [rows] = await getdb().execute(query, [email]);
+    const [rows] = await db.query(
+      `SELECT * FROM students WHERE email = ?`,
+      [email]
+    );
     return rows[0];
   }
 
+  // ✅ PROFILE LOAD
   static async findById(id) {
-    const query = 'SELECT * FROM students WHERE id = ?';
-    const [rows] = await getdb.execute(query, [id]);
-    if (rows[0]) {
-      rows[0].sales_selections = JSON.parse(rows[0].sales_selections || '[]');
-      rows[0].cra_selections = JSON.parse(rows[0].cra_selections || '[]');
-    }
+    const [rows] = await db.query(
+      `SELECT id, first_name, last_name, email, phone 
+       FROM students 
+       WHERE id = ?`,
+      [id]
+    );
     return rows[0];
   }
 
+  // ✅ PROFILE UPDATE
+  static async update(id, data) {
+    const { firstName, lastName, phone } = data;
+
+    await db.query(
+      `UPDATE students 
+       SET first_name = ?, last_name = ?, phone = ?
+       WHERE id = ?`,
+      [
+        firstName || null,
+        lastName || null,
+        phone || null,
+        id
+      ]
+    );
+  }
+
+  // ✅ GET ALL
   static async getAll() {
-    const query = 'SELECT id, first_name, last_name, email, phone, current_status, city, program_interest, created_at FROM students';
-    const [rows] = await getdb.execute(query);
+    const [rows] = await db.query(
+      `SELECT id, first_name, last_name, email, phone FROM students`
+    );
     return rows;
   }
 
-  static async update(id, studentData) {
-    const query = `
-      UPDATE students SET
-        first_name = ?, last_name = ?, phone = ?, current_status = ?,
-        branch = ?, study_year = ?, school_college = ?, city = ?,
-        program_interest = ?, sales_selections = ?, cra_selections = ?
-      WHERE id = ?
-    `;
-    
-    const values = [
-      studentData.firstName,
-      studentData.lastName,
-      studentData.phone,
-      studentData.currentStatus,
-      studentData.branch || null,
-      studentData.studyYear || null,
-      studentData.schoolCollege,
-      studentData.city,
-      studentData.programInterest,
-      JSON.stringify(studentData.salesSelections || []),
-      JSON.stringify(studentData.craSelections || []),
-      id
-    ];
-    
-    const [result] = await getdb.execute(query, values);
-    return result;
-  }
-
+  // ✅ DELETE ACCOUNT
   static async delete(id) {
-    const query = 'DELETE FROM students WHERE id = ?';
-    const [result] = await getdb.execute(query, [id]);
-    return result;
+    await db.query(`DELETE FROM students WHERE id = ?`, [id]);
   }
 }
 

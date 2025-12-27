@@ -12,4 +12,6 @@ router.delete('/profile', authenticate, authorizeRole('student'), studentControl
 router.post('/logout', authenticate, studentController.logoutStudent);
 router.get('/all', studentController.getAllStudents);
 
+
+
 module.exports = router;

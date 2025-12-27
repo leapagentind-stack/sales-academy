@@ -1,0 +1,121 @@
+/* ---------------------------------------------
+   PAGE WRAPPER
+---------------------------------------------- */
+.category-page {
+  padding: 35px;
+  min-height: 100vh;
+  font-family: "Inter", sans-serif;
+  background: linear-gradient(135deg, #eac5fb, #c3d8fa);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* ---------------------------------------------
+   TITLE
+---------------------------------------------- */
+.category-title {
+  font-size: 34px;
+  font-weight: 800;
+  margin-bottom: 25px;
+  color: #243b53;
+  text-transform: capitalize;
+}
+
+/* ---------------------------------------------
+   FILTER BUTTONS
+---------------------------------------------- */
+.filter-container {
+  display: flex;
+  gap: 14px;
+  margin-bottom: 25px;
+  flex-wrap: wrap;
+}
+
+.filter-btn {
+  padding: 10px 22px;
+  border-radius: 30px;
+  border: 2px solid transparent;
+  background: #ffffff55;
+  font-size: 15px;
+  font-weight: 600;
+  color: #222;
+  cursor: pointer;
+
+  backdrop-filter: blur(6px);
+  transition: all 0.28s ease;
+}
+
+.filter-btn:hover {
+  background: #ffffff;
+  border-color: #7bb2ff;
+  color: #0053c7;
+  transform: translateY(-3px);
+  box-shadow: 0 6px 16px rgba(0,0,0,0.15);
+}
+
+.filter-btn.active {
+  background: #0053c7;
+  color: #ffffff;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.22);
+}
+
+/* ---------------------------------------------
+   VIDEO GRID
+---------------------------------------------- */
+.category-course-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 26px;
+  margin-top: 15px;
+}
+
+/* ---------------------------------------------
+   VIDEO CARD
+---------------------------------------------- */
+.course-card {
+  background: #ffffffdd;
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.12);
+  cursor: pointer;
+  transition: 0.3s ease;
+  position: relative;
+  backdrop-filter: blur(4px);
+}
+
+.course-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 26px rgba(0,0,0,0.18);
+}
+
+/* ---------------------------------------------
+   PLAYER
+---------------------------------------------- */
+.video-frame {
+  width: 500px;
+  height: 300px;
+  border: none;
+  border-radius: 12px 12px 0 0;
+}
+
+/* ---------------------------------------------
+   COURSE TITLE
+---------------------------------------------- */
+.course-title {
+  padding: 14px;
+  font-size: 17px;
+  font-weight: 700;
+  text-align: center;
+  color: #1e1e1e;
+  background: #ffffff;
+}
+
+/* ---------------------------------------------
+   NO VIDEO MESSAGE
+---------------------------------------------- */
+.category-course-list p {
+  font-size: 18px;
+  font-weight: 500;
+  color: #333;
+}

@@ -1,68 +1,64 @@
-// const express = require('express');
-// const cors = require('cors');
-// const { Pool } = require('pg');
-// require('dotenv').config();
-
-// const app = express();
-// const port = process.env.PORT || 5000;
-
-// // Middleware
-// app.use(cors());
-// app.use(express.json());
-
-// // PostgreSQL connection
-// const pool = new Pool({
-//   connectionString: process.env.DATABASE_URL,
-// });
-
-// // Test database connection
-// pool.on('connect', () => {
-//   console.log('Connected to PostgreSQL database');
-// });
-
-// // Routes
-// app.get('/api/health', (req, res) => {
-//   res.json({ status: 'OK', message: 'Backend is running' });
-// });
-
-// app.get('/api/test-db', async (req, res) => {
-//   try {
-//     const result = await pool.query('SELECT NOW()');
-//     res.json({ status: 'OK', timestamp: result.rows[0].now });
-//   } catch (error) {
-//     console.error('Database query error:', error);
-//     res.status(500).json({ status: 'ERROR', message: 'Database connection failed' });
-//   }
-// });
-
-// app.listen(port, () => {
-//   console.log(`Server running on port ${port}`);
-// });
-
 const express = require('express');
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
 require('dotenv').config();
-const connectDB = require('./config/db');
 
+const db = require('./config/db');
+global.db = db;
+// Route Files
 
 const studentRoutes = require('./routes/studentRoutes');
 const teacherRoutes = require('./routes/teacherRoutes');
+const myLearningRoutes = require("./routes/myLearningRoutes");
+const videosRoutes = require("./routes/videosRoutes");
+const recommendedRoutes = require('./routes/recommendedRoutes');
+const recommendedVideoRoutes = require("./routes/recommendedVideoRoutes");
+const categoryVideoRoutes = require("./routes/categoryVideoRoutes"); 
+const adsRoutes = require("./routes/adsRoutes");
+const popularRoutes = require("./routes/popularRoutes");
+const popularVideoRoutes = require("./routes/popularVideoRoutes");
+const newCourseRoutes = require("./routes/newCourseRoutes");
+const searchRoutes = require("./routes/searchRoutes");
+const cartRoutes = require("./routes/cartRoutes");
+const paymentRoutes = require("./routes/paymentRoutes");
+const enrollmentRoutes = require("./routes/enrollmentRoutes");
 
+
+
+
+
+
+// Initialize App
 const app = express();
 
+// Middlewares
 app.use(cors({
   origin: 'http://localhost:3000',
   credentials: true
 }));
-
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
+// API Routes
+
 app.use('/api/students', studentRoutes);
 app.use('/api/teachers', teacherRoutes);
+app.use("/api/my-learning", myLearningRoutes);
+app.use("/api/videos", videosRoutes);
+app.use("/api", recommendedRoutes);
+app.use("/api", recommendedVideoRoutes);
+app.use("/api", categoryVideoRoutes);
+app.use("/api/ads", adsRoutes);
+app.use("/api", popularRoutes);
+app.use("/api/popular-videos", popularVideoRoutes);
+app.use("/api/courses", newCourseRoutes);
+app.use("/api/search", searchRoutes);
+app.use("/api/cart", cartRoutes);
+app.use("/api/payment", paymentRoutes);
+app.use("/api/enrollment", enrollmentRoutes);
 
+// Default Root
 app.get('/', (req, res) => {
   res.json({
     success: true,
@@ -70,21 +66,13 @@ app.get('/', (req, res) => {
   });
 });
 
-app.use((err, req, res, next) => {
-  console.error(err.stack);
-  res.status(500).json({
-    success: false,
-    message: 'Something went wrong',
-    error: err.message
-  });
-});
+// TEST DB CONNECTION
+db.query('SELECT 1')
+  .then(() => console.log("MySQL DB Connected"))
+  .catch((err) => console.error("DB Connection Failed:", err));
 
+// Server Start
 const PORT = process.env.PORT || 5000;
-
-connectDB().then(pool => {
-  global.db = pool;
-  console.log("DB Connected.");
-  app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
-  });
-});
+app.listen(PORT, () =>
+  console.log(`Server running on port ${PORT}`)
+);

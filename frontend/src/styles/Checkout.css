@@ -1,0 +1,81 @@
+.checkout-container {
+  max-width: 800px;
+  margin: 40px auto;
+  padding: 30px;
+}
+
+/* LIST */
+.checkout-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* CARD */
+.checkout-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: #ffffff;
+  padding: 16px;
+  border-radius: 12px;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.1);
+}
+
+/* IMAGE */
+.checkout-card img {
+  width: 140px;
+  height: 90px;
+  object-fit: cover;
+  border-radius: 10px;
+  background: #f1f1f1;
+}
+
+/* TEXT */
+.checkout-card h4 {
+  margin: 0;
+  font-size: 18px;
+}
+
+.checkout-card p {
+  margin-top: 6px;
+  font-size: 16px;
+  color: #555;
+}
+
+/* TOTAL */
+.checkout-container h3 {
+  margin-top: 25px;
+  font-size: 22px;
+}
+
+/* PAY BUTTON */
+.pay-btn {
+  margin-top: 20px;
+  padding: 14px;
+  font-size: 18px;
+  background: #28a745;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  width: 100%;
+  transition: background 0.3s ease;
+}
+
+.pay-btn:hover {
+  background: #218838;
+}
+
+/* MOBILE */
+@media (max-width: 600px) {
+  .checkout-card {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .checkout-card img {
+    width: 100%;
+    height: 160px;
+  }
+}

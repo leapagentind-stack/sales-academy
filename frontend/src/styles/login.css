@@ -1,3 +1,7 @@
+/* ===============================
+   THAILAND THEME – LOGIN PAGE
+   =============================== */
+
 /* Full screen background */
 .login-wrapper {
   height: 100vh;
@@ -5,58 +9,132 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background: linear-gradient(135deg, #0b1523, #0d1b2a);
+
+  /* Thai-inspired gradient */
+  background: linear-gradient(
+    135deg,
+    #0f3d3e,   /* emerald */
+    #1b263b,   /* deep blue */
+    #0b132b    /* night navy */
+  );
 }
 
-/* White card */
+/* Login card */
 .login-card {
-  width: 450px;
-  padding: 40px;
-  background: #ffffff;
-  border-radius: 20px;
-  border: 3px solid #38e6b7;
-  box-shadow: 0px 10px 35px rgba(0, 0, 0, 0.25);
+  width: 420px;
+  padding: 45px 40px;
+  background: #fffdf7; /* ivory white */
+
+  border-radius: 22px;
+  border: 2px solid rgba(212, 175, 55, 0.6); /* gold */
+
+  box-shadow:
+    0 25px 60px rgba(0, 0, 0, 0.35),
+    inset 0 0 0 1px rgba(255, 215, 0, 0.15);
+
   text-align: center;
+  transition: all 0.35s ease;
 }
+
+/* Hover luxury effect */
 .login-card:hover {
-  border-color: rgba(59, 130, 246, 0.8) !important;
-  box-shadow: 0 20px 60px rgba(59, 130, 246, 0.3) !important;
+  transform: translateY(-4px);
+  box-shadow:
+    0 35px 80px rgba(0, 0, 0, 0.45),
+    0 0 30px rgba(212, 175, 55, 0.35);
 }
 
 /* Title */
 .login-card h2 {
-  margin-bottom: 25px;
+  margin-bottom: 30px;
   font-size: 30px;
   font-weight: 700;
-  color: #152c55;
+  letter-spacing: 1px;
+
+  color: #1b3a4b;
+  position: relative;
 }
 
-/* Input fields */
+/* Golden underline */
+.login-card h2::after {
+  content: "";
+  width: 70px;
+  height: 3px;
+  background: linear-gradient(to right, #d4af37, #f5e6a8);
+  display: block;
+  margin: 12px auto 0;
+  border-radius: 5px;
+}
+
+/* Inputs */
 .login-card input,
 .login-card select {
   width: 100%;
-  padding: 14px;
+  padding: 14px 16px;
   margin-bottom: 20px;
-  border: 1px solid #e2e8f0;
-  border-radius: 10px;
+
   font-size: 15px;
-  background: #f1f5f9;
+  border-radius: 12px;
+
+  border: 1px solid #d1d5db;
+  background: #f8fafc;
+  color: #1f2933;
+
   outline: none;
+  transition: all 0.25s ease;
+}
+
+/* Input focus */
+.login-card input:focus,
+.login-card select:focus {
+  border-color: #d4af37;
+  background: #ffffff;
+  box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.25);
 }
 
 /* Submit button */
 .submit-btn {
   width: 100%;
   padding: 14px;
-  background: #3f88ff;
+  margin-top: 10px;
+
+  font-size: 17px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+
+  color: #ffffff;
+  background: linear-gradient(
+    135deg,
+    #d4af37,  /* gold */
+    #b8962e
+  );
+
   border: none;
-  color: white;
-  font-size: 18px;
-  border-radius: 10px;
+  border-radius: 14px;
   cursor: pointer;
-  transition: 0.3s;
+
+  box-shadow:
+    0 10px 30px rgba(212, 175, 55, 0.45);
+
+  transition: all 0.3s ease;
 }
 
+/* Button hover */
 .submit-btn:hover {
-  opacity: 0.9;
+  transform: translateY(-2px);
+  box-shadow:
+    0 15px 40px rgba(212, 175, 55, 0.65);
+}
+
+/* Button active */
+.submit-btn:active {
+  transform: translateY(0);
+}
+
+/* Mobile responsive */
+@media (max-width: 480px) {
+  .login-card {
+    width: 90%;
+    padding: 35px 25px;
+  }
 }

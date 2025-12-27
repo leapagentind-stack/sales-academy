@@ -126,66 +126,42 @@ exports.loginStudent = async (req, res) => {
 
 exports.getStudentProfile = async (req, res) => {
   try {
-    const student = await Student.findById(req.user.id);
-    if (!student) {
-      return res.status(404).json({
-        success: false,
-        message: 'Student not found'
-      });
-    }
+    const studentId = req.user.id;
 
-    delete student.password;
+    const student = await Student.findById(studentId);
 
-    res.status(200).json({
+    res.json({
       success: true,
-      data: student
+      data: student,
     });
-  } catch (error) {
-    console.error('Get student profile error:', error);
-    res.status(500).json({
-      success: false,
-      message: 'Server error',
-      error: error.message
-    });
+  } catch (err) {
+    console.error("Get student profile error:", err);
+    res.status(500).json({ message: "Failed to load profile" });
   }
 };
 
 exports.updateStudentProfile = async (req, res) => {
   try {
-    const {
-      firstName, lastName, phone, currentStatus, branch, studyYear,
-      schoolCollege, city, programInterest, salesSelections, craSelections
-    } = req.body;
+    const studentId = req.user.id;
 
-    const studentData = {
-      firstName,
-      lastName,
-      phone,
-      currentStatus,
-      branch,
-      studyYear,
-      schoolCollege,
-      city,
-      programInterest,
-      salesSelections,
-      craSelections
+    const data = {
+      firstName: req.body.firstName,
+      lastName: req.body.lastName,
+      phone: req.body.phone,
     };
 
-    await Student.update(req.user.id, studentData);
+    await Student.update(studentId, data);
 
-    res.status(200).json({
+    res.json({
       success: true,
-      message: 'Profile updated successfully'
+      message: "Profile updated successfully",
     });
-  } catch (error) {
-    console.error('Update student profile error:', error);
-    res.status(500).json({
-      success: false,
-      message: 'Server error',
-      error: error.message
-    });
+  } catch (err) {
+    console.error("Update student profile error:", err);
+    res.status(500).json({ message: "Profile update failed" });
   }
 };
+
 
 exports.getAllStudents = async (req, res) => {
   try {
