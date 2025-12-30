@@ -1,0 +1,108 @@
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  height: 80px;
+  background: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+}
+
+/* Left */
+.logo {
+  font-size: 20px;
+  font-weight: 700;
+  color: #1e40af;
+  cursor: pointer;
+}
+
+/* Center */
+.header-center {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+
+.header-search {
+  width: 55%;
+  max-width: 420px;
+  padding: 8px 14px;
+  border-radius: 8px;
+  border: 1px solid #d1d5db;
+  outline: none;
+}
+
+.header-search:focus {
+  border-color: #2563eb;
+}
+
+/* Right */
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+}
+
+.header-right span {
+  cursor: pointer;
+  font-weight: 500;
+  color: #374151;
+}
+
+.header-right span:hover {
+  color: #2563eb;
+}
+
+/* Profile */
+.profile {
+  position: relative;
+}
+
+.profile-name {
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.profile-dropdown {
+  position: absolute;
+  top: 42px;
+  right: 0;
+  background: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+  width: 160px;
+  display: flex;
+  flex-direction: column;
+  z-index: 2000;
+}
+
+.profile-dropdown span {
+  padding: 12px 14px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.profile-dropdown span:hover {
+  background: #f3f4f6;
+}
+.cart-icon {
+  position: relative;
+  cursor: pointer;
+  font-size: 22px;
+  margin-right: 20px;
+}
+
+.cart-count {
+  position: absolute;
+  top: -6px;
+  right: -10px;
+  background: red;
+  color: white;
+  font-size: 11px;
+  padding: 2px 6px;
+  border-radius: 50%;
+  font-weight: bold;
+}

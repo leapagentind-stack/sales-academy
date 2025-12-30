@@ -1,0 +1,58 @@
+/* Ensure the Sidebar takes full height */
+.sidebar {
+  width: 260px; /* Adjust based on your design */
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: #2563eb; /* Blue background like your screenshot */
+  color: white;
+  display: flex;
+  flex-direction: column;
+  z-index: 1000;
+  transition: transform 0.3s ease-in-out;
+}
+
+/* Allow the menu area to scroll if screen is small */
+.sidebar-nav {
+  flex: 1; /* Takes remaining space */
+  overflow-y: auto; /* Adds scrollbar if needed */
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Style for Menu Items */
+.menu-item {
+  display: flex;
+  alignItems: center;
+  padding: 12px 15px;
+  color: white; /* Text color */
+  text-decoration: none;
+  border-radius: 8px;
+  margin-bottom: 5px;
+  transition: background 0.2s;
+}
+
+.menu-item:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.menu-item.active {
+  background: white;
+  color: #2563eb; /* Blue text for active item */
+  font-weight: bold;
+}
+
+/* ✅ SPECIFIC STYLE FOR LOGOUT BUTTON */
+.logout-btn {
+  margin-top: auto; /* Pushes Logout to the very bottom */
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  padding-top: 15px;
+  color: #ffcccb !important; /* Light red text to make it stand out */
+}
+
+.logout-btn:hover {
+  background: #ef4444 !important; /* Red background on hover */
+  color: white !important;
+}

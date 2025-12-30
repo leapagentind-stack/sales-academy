@@ -1,0 +1,148 @@
+/* =========================
+   CART PAGE
+========================= */
+
+.cart-container {
+  max-width: 1000px;
+  margin: 40px auto;
+  padding: 20px;
+  font-family: "Inter", sans-serif;
+}
+
+.cart-title {
+  font-size: 26px;
+  font-weight: 700;
+  margin-bottom: 25px;
+}
+
+/* Empty cart */
+.cart-empty {
+  text-align: center;
+  color: #555;
+  font-size: 16px;
+}
+
+/* Cart item */
+.cart-item {
+  display: flex;
+  gap: 18px;
+  background: #ffffff;
+  padding: 16px;
+  border-radius: 14px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+  margin-bottom: 18px;
+  align-items: center;
+}
+
+.cart-thumb {
+  width: 140px;
+  height: 90px;
+  border-radius: 10px;
+  object-fit: cover;
+}
+
+.cart-info {
+  flex: 1;
+}
+
+.cart-title-text {
+  font-size: 17px;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.cart-type {
+  font-size: 13px;
+  color: #666;
+}
+
+/* Actions */
+.cart-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.remove-btn {
+  background: #f3f4f6;
+  border: 1px solid #d1d5db;
+  padding: 5px 5px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.remove-btn:hover {
+  background: #e5e7eb;
+}
+
+/* Buy Section */
+.cart-footer {
+  margin-top: 30px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.buy-btn {
+  background: #a435f0;
+  color: #fff;
+  padding: 12px 24px;
+  border-radius: 10px;
+  font-size: 16px;
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+}
+
+.buy-btn:hover {
+  background: #8710d8;
+}
+/* Card hover */
+.cart-item:hover {
+  transform: translateY(-3px);
+  transition: all 0.25s ease;
+  box-shadow: 0 10px 22px rgba(0,0,0,0.12);
+}
+
+/* Remove hover */
+.remove-btn {
+  transition: background 0.2s ease, transform 0.15s ease;
+}
+
+.remove-btn:hover {
+  background: #fee2e2;
+  color: #b91c1c;
+  transform: scale(1.03);
+}
+
+/* Buy button hover */
+.buy-btn {
+  transition: background 0.25s ease, transform 0.15s ease;
+}
+
+.buy-btn:hover {
+  background: #6d28d9;
+  transform: translateY(-2px);
+}
+
+/* Image hover */
+.cart-thumb {
+  transition: transform 0.25s ease;
+}
+
+.cart-thumb:hover {
+  transform: scale(1.05);
+}
+.buy-one-btn {
+  background: #6d28d9;
+  color: #fff;
+  padding: 5px 10px;
+  border-radius: 8px;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.buy-one-btn:hover {
+  background: #5b21b6;
+}
