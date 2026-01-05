@@ -1613,18 +1613,50 @@ const Courses = () => {
                                             <span style={{ fontSize: '0.9rem', color: '#94a3b8', background: '#f1f5f9', padding: '2px 8px', borderRadius: '4px' }}>New</span>
                                         )}
                                     </div>
-                                    <div style={{ fontWeight: '800', color: '#0f172a', fontSize: '1.5rem' }}>
-                                        {course.price && course.price !== "0" ? `₹${course.price}` : 'Free'}
+                                    <div style={{ fontWeight: '800', color: '#0f172a', fontSize: '1.5rem', display: 'flex', flexDirection: 'column', alignItems: 'flex-end' }}>
+                                        {/* Strikethrough Logic */}
+                                        {course.hasOffer && (
+                                            <span style={{ fontSize: '0.9rem', color: '#94a3b8', textDecoration: 'line-through', marginBottom: '-4px' }}>
+                                                ₹{course.originalPrice}
+                                            </span>
+                                        )}
+                                        <span>{course.displayPrice || (course.price && course.price !== "0" ? `₹${course.price}` : 'Free')}</span>
                                     </div>
                                 </div>
                             </div>
                             
                             <div style={{ padding: '0 2rem 2rem 2rem', display: 'flex', gap: '0.5rem', marginTop: 'auto' }}>
                                 <button
-                                    onClick={(e) => { e.stopPropagation(); openPaymentModal(course); }}
-                                    style={{ flex: 1.5, padding: '0.75rem', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '0.5rem', backgroundColor: '#10b981', color: 'white', border: '1px solid #059669', borderRadius: '0.75rem', cursor: 'pointer', fontWeight: '700', fontSize: '0.95rem', transition: 'background-color 0.2s' }}
+                                    onClick={(e) => { 
+                                        e.stopPropagation(); 
+                                        // ✅ IF FREE: Enroll immediately (just open course)
+                                        // ✅ IF PAID: Open payment modal
+                                        if (course.isFree) {
+                                            handleCourseClick(course);
+                                        } else {
+                                            openPaymentModal(course); 
+                                        }
+                                    }}
+                                    style={{ 
+                                        flex: 1.5, 
+                                        padding: '0.75rem', 
+                                        display: 'flex', 
+                                        alignItems: 'center', 
+                                        justifyContent: 'center', 
+                                        gap: '0.5rem', 
+                                        // ✅ UPDATED BUTTON COLOR & TEXT
+                                        backgroundColor: course.isFree ? '#2563eb' : '#10b981', // Blue for Enroll, Green for Buy
+                                        color: 'white', 
+                                        border: course.isFree ? '1px solid #1d4ed8' : '1px solid #059669', 
+                                        borderRadius: '0.75rem', 
+                                        cursor: 'pointer', 
+                                        fontWeight: '700', 
+                                        fontSize: '0.95rem', 
+                                        transition: 'background-color 0.2s' 
+                                    }}
                                 >
-                                    Buy Now
+                                    {/* ✅ UPDATED BUTTON TEXT */}
+                                    {course.buttonText || "Buy Now"}
                                 </button>
                                 <button
                                     onClick={(e) => { e.stopPropagation(); handleEditCourse(course); }}

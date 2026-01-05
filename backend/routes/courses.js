@@ -24,17 +24,53 @@ const upload = multer({
     limits: { fileSize: 2 * 1024 * 1024 * 1024 } 
 });
 
+// ✅ UPDATED GET ROUTE: NOW HANDLES "FREE" & "ENROLL NOW" LOGIC
 router.get('/', async (req, res) => {
     try {
-        const courses = await query('SELECT * FROM courses ORDER BY created_at DESC', []);
+        // 1. Fetch courses with Offer Details (LEFT JOIN)
+        const sql = `
+            SELECT c.*, co.discount_price, co.validity AS offer_validity, co.coupon_code 
+            FROM courses c
+            LEFT JOIN course_offers co ON c.id = co.course_id
+            ORDER BY c.created_at DESC
+        `;
+        const courses = await query(sql, []);
+        
         const lessons = await query('SELECT * FROM lessons ORDER BY module_order ASC, id ASC', []);
         const progress = await query('SELECT * FROM user_progress', []);
 
         const fullData = courses.map(course => {
             const courseLessons = lessons.filter(l => l.course_id == course.id);
             const courseProgress = progress.filter(p => p.course_id == course.id);
+
+            // --- UDEMY STYLE LOGIC ---
+            
+            // 1. Check if an offer exists
+            const hasOffer = course.discount_price !== null && course.discount_price !== undefined;
+            
+            // 2. Determine the actual numeric price to charge
+            const finalPrice = hasOffer ? Number(course.discount_price) : Number(course.price);
+
+            // 3. Check if it is Free
+            const isFree = finalPrice === 0;
+
             return { 
-                ...course, 
+                ...course,
+                
+                // DATA FOR UI DISPLAY
+                price: finalPrice, // The actual number for math
+                originalPrice: course.price,
+                
+                // ✅ NEW FIELDS FOR FRONTEND UI:
+                displayPrice: isFree ? "Free" : `₹${finalPrice}`, // Shows "Free" or "₹999"
+                buttonText: isFree ? "Enroll Now" : "Buy Now",    // Shows "Enroll Now" or "Buy Now"
+                isFree: isFree,
+                
+                hasOffer: hasOffer,
+                couponCode: course.coupon_code,
+
+                image: course.thumbnail_url || "https://via.placeholder.com/300", 
+                type: 'general',
                 lessons: courseLessons, 
                 progress: courseProgress 
             };

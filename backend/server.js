@@ -18,9 +18,9 @@ app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ limit: '50mb', extended: true }));
 app.use(cookieParser());
 
+// ✅ Make sure 'uploads' folder is static so images can be viewed
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
-// --- ROUTES ---
 app.use('/api/teachers', require('./routes/teacherRoutes'));
 app.use('/api/students', require('./routes/studentRoutes'));
 app.use('/api/courses', require('./routes/courses'));
@@ -28,8 +28,10 @@ app.use('/api/assignments', require('./routes/assignments'));
 app.use('/api/comments', require('./routes/comments')); 
 app.use('/api/settings', require('./routes/settings'));
 app.use('/api/live-classes', require('./routes/liveClasses'));
+app.use('/api/offers', require('./routes/offers'));
 
-
+// ✅ UPDATED LINE: Pointing to your new file 'announcementsRoutes.js'
+app.use('/api/announcements', require('./routes/announcementsRoutes'));
 
 const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {

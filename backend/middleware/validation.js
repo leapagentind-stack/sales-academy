@@ -1,11 +1,11 @@
 exports.validateStudentRegistration = (req, res, next) => {
   const {
-    firstName, lastName, email, password, phone,
-    currentStatus, institution, city, programInterest
+    first_name, last_name, email, password, phone,
+    current_status, school_college, city, program_interest
   } = req.body;
 
-  if (!firstName || !lastName || !email || !password || !phone ||
-      !currentStatus || !institution || !city || !programInterest) {
+  if (!first_name || !last_name || !email || !password || !phone ||
+      !current_status || !school_college || !city || !program_interest) {
     return res.status(400).json({ success: false, message: 'Please provide all required fields' });
   }
 

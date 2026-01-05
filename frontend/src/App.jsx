@@ -3,10 +3,12 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import { DashboardProvider } from './context/DashboardContext';
 import "./App.css";
 
-const SalesLandingPage = lazy(() => import('./SalesLandingPage'));
-const Login = lazy(() => import('./components/Login')); 
-const MultiRoleRegistration = lazy(() => import('./pages/MultiRoleRegistration'));
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
+const SalesLandingPage = lazy(() => import('./SalesLandingPage'));
+const Login = lazy(() => import('./components/Login'));
+const MultiRoleRegistration = lazy(() => import('./pages/MultiRoleRegistration'));
 const StudentHomeScreen = lazy(() => import('./components/StudentHomeScreen'));
 const CourseVideos = lazy(() => import('./components/CourseVideos'));
 const CategoryPage = lazy(() => import('./components/CategoryPage'));
@@ -19,15 +21,19 @@ const Cart = lazy(() => import('./pages/Cart'));
 const Checkout = lazy(() => import('./pages/Checkout'));
 
 const Layout = lazy(() => import('./components/Layout'));
-const DashboardHome = lazy(() => import('./components/Dashboard/Home'));
-const DashboardCourses = lazy(() => import('./components/Dashboard/Courses'));
-const DashboardStudents = lazy(() => import('./components/Dashboard/Students'));
-const Assignments = lazy(() => import('./components/Dashboard/Assignments'));
-const LiveClasses = lazy(() => import('./components/Dashboard/LiveClasses'));
-const Messages = lazy(() => import('./components/Dashboard/Messages'));
-const Notifications = lazy(() => import('./components/Dashboard/Notifications'));
-const DashboardProfile = lazy(() => import('./components/Dashboard/Profile'));
-const Settings = lazy(() => import('./components/Dashboard/Settings'));
+const DashboardHome = lazy(() => import('./components/Teacher/Home'));
+const DashboardCourses = lazy(() => import('./components/Teacher/Courses'));
+const DashboardOffers = lazy(() => import('./components/Teacher/Offers'));
+const DashboardStudents = lazy(() => import('./components/Teacher/Students'));
+const Assignments = lazy(() => import('./components/Teacher/Assignments'));
+const LiveClasses = lazy(() => import('./components/Teacher/LiveClasses'));
+const Messages = lazy(() => import('./components/Teacher/Messages'));
+const Notifications = lazy(() => import('./components/Teacher/Notifications'));
+const DashboardProfile = lazy(() => import('./components/Teacher/Profile'));
+const Settings = lazy(() => import('./components/Teacher/Settings'));
+
+// Admin Component
+const AdminAnnouncements = lazy(() => import('./components/Admin/AdminAnnouncements'));
 
 const Loading = () => (
   <div className="flex items-center justify-center min-h-screen bg-gray-50">
@@ -35,16 +41,35 @@ const Loading = () => (
   </div>
 );
 
+const ProtectedRoute = ({ children }) => {
+  const token = localStorage.getItem('token');
+  if (!token) {
+    return <Navigate to="/login" replace />;
+  }
+  return children;
+};
+
 function App() {
   return (
     <DashboardProvider>
       <Router>
+        <ToastContainer
+          position="top-center"
+          autoClose={4000}
+          hideProgressBar={false}
+          closeOnClick
+          pauseOnHover
+          draggable
+          theme="colored"
+          style={{ zIndex: 999999 }} 
+        />
+
         <Suspense fallback={<Loading />}>
           <Routes>
             <Route path="/" element={<SalesLandingPage />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<MultiRoleRegistration />} />
-            
+
             <Route path="/studenthomescreen" element={<StudentHomeScreen />} />
             <Route path="/course/:id" element={<CourseVideos />} />
             <Route path="/category/:slug" element={<CategoryPage />} />
@@ -56,10 +81,20 @@ function App() {
             <Route path="/cart" element={<Cart />} />
             <Route path="/checkout" element={<Checkout />} />
 
-            <Route path="/dashboard" element={<Layout />}>
+            {/* TEACHER DASHBOARD */}
+            <Route
+              path="/dashboard"
+              element={
+                <ProtectedRoute>
+                  <Layout />
+                </ProtectedRoute>
+              }
+            >
               <Route index element={<Navigate to="home" replace />} />
               <Route path="home" element={<DashboardHome />} />
+              {/* Announcements Route Removed from Teacher Dashboard */}
               <Route path="courses" element={<DashboardCourses />} />
+              <Route path="offers" element={<DashboardOffers />} />
               <Route path="students" element={<DashboardStudents />} />
               <Route path="assignments" element={<Assignments />} />
               <Route path="live-classes" element={<LiveClasses />} />
@@ -69,12 +104,27 @@ function App() {
               <Route path="settings" element={<Settings />} />
             </Route>
 
-            <Route path="*" element={
-              <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50">
-                <h1 className="text-6xl font-bold text-blue-600 mb-4">404</h1>
-                <p className="text-xl text-gray-600">Page Not Found</p>
-              </div>
-            } />
+            {/* ADMIN DASHBOARD */}
+            <Route
+              path="/admin"
+              element={
+                <ProtectedRoute>
+                  <Layout />
+                </ProtectedRoute>
+              }
+            >
+              <Route path="announcements" element={<AdminAnnouncements />} />
+            </Route>
+
+            <Route
+              path="*"
+              element={
+                <div className="flex flex-col items-center justify-center min-h-screen bg-gray-50">
+                  <h1 className="text-6xl font-bold text-blue-600 mb-4">404</h1>
+                  <p className="text-xl text-gray-600">Page Not Found</p>
+                </div>
+              }
+            />
           </Routes>
         </Suspense>
       </Router>

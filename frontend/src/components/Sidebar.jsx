@@ -18,25 +18,27 @@ const Sidebar = ({ isOpen, onClose }) => {
   const menuItems = [
     { icon: '📊', label: 'Dashboard', path: '/dashboard/home' },
     { icon: '📚', label: 'Manage Courses', path: '/dashboard/courses' },
+    { icon: '🏷️', label: 'Offers', path: '/dashboard/offers' },
     { icon: '👥', label: 'Students', path: '/dashboard/students' },
-    { icon: '📝', label: 'Assignments', path: '/dashboard/assignments' },
     { icon: '🎥', label: 'Live Classes', path: '/dashboard/live-classes' },
+    { icon: '📝', label: 'Assignments', path: '/dashboard/assignments' },
+    
+    
+
     { icon: '💬', label: 'Messages', path: '/dashboard/messages' },
     { icon: '🔔', label: 'Notifications', path: '/dashboard/notifications' },
     { icon: '👤', label: 'Profile', path: '/dashboard/profile' },
     { icon: '⚙️', label: 'Settings', path: '/dashboard/settings' },
     
-    // ✅ ADD LOGOUT HERE (Last Item)
+    // Logout Button
     { icon: '🚪', label: 'Logout', path: '#' } 
   ];
 
   const handleItemClick = (e, item) => {
     if (onClose) onClose();
-
-    // ✅ INTERCEPT LOGOUT CLICK
     if (item.label === 'Logout') {
-      e.preventDefault(); // Stop navigation
-      handleLogout();     // Run logic
+      e.preventDefault();
+      handleLogout();
     }
   };
 

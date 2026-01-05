@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { UserOutlined, TeamOutlined, ArrowRightOutlined, ArrowLeftOutlined, CheckCircleOutlined, LoadingOutlined } from "@ant-design/icons";
 import { Form, Input, Button, Card, Progress, Select, Checkbox, Row, Col, Typography, message, Space, Spin } from "antd";
 import { studentAPI, teacherAPI } from "../services/api";
@@ -7,7 +7,6 @@ import { useNavigate } from "react-router-dom";
 const { Title, Text, Paragraph } = Typography;
 const { Option } = Select;
 const { TextArea } = Input;
-
 
 const salesCourses = [
   "Sales Fundamentals",
@@ -62,7 +61,7 @@ const MultiRoleRegistration = () => {
     city: "",
     programInterest: "",
     salesSelections: [],
-    crnSelections: [],
+    crmSelections: [],
     agreeTerms: false
   });
 
@@ -87,6 +86,19 @@ const MultiRoleRegistration = () => {
     bio: "",
     agreeTerms: false
   });
+
+  // --- FIX: Ensure form values persist when navigating back/forth ---
+  useEffect(() => {
+    if (currentView === "student") {
+      studentForm.setFieldsValue(studentData);
+    }
+  }, [studentStep, currentView, studentData, studentForm]);
+
+  useEffect(() => {
+    if (currentView === "teacher") {
+      teacherForm.setFieldsValue(teacherData);
+    }
+  }, [teacherStep, currentView, teacherData, teacherForm]);
 
   const studentSteps = [
     { id: 1, title: "Basic Details" },
@@ -156,7 +168,9 @@ const MultiRoleRegistration = () => {
         }
       }
 
-      setStudentData({ ...studentData, ...values });
+      // Merge current step values into main state
+      setStudentData(prev => ({ ...prev, ...values }));
+      
       if (studentStep < 4) {
         setStudentStep(studentStep + 1);
       }
@@ -199,7 +213,7 @@ const MultiRoleRegistration = () => {
         }
       }
 
-      setTeacherData({ ...teacherData, ...values });
+      setTeacherData(prev => ({ ...prev, ...values }));
       if (teacherStep < 5) {
         setTeacherStep(teacherStep + 1);
       }
@@ -211,28 +225,33 @@ const MultiRoleRegistration = () => {
   const onStudentSubmit = async () => {
     try {
       const values = await studentForm.validateFields();
-      if (!studentData.agreeTerms) {
+      const finalData = { ...studentData, ...values };
+
+      if (!finalData.agreeTerms) {
         message.error("You must accept terms and conditions");
         return;
       }
 
       setLoading(true);
+
       const payload = {
-        firstName: studentData.firstName,
-        lastName: studentData.lastName,
-        email: studentData.email,
-        password: studentData.password,
-        phone: studentData.phone,
-        currentStatus: studentData.currentStatus,
-        branch: studentData.branch,
-        studyYear: studentData.studyYear,
-        schoolCollege: studentData.schoolCollege,
-        city: studentData.city,
-        programInterest: studentData.programInterest,
-        salesSelections: studentData.salesSelections || [],
-        crmSelections: studentData.crmSelections || [],
-        agreeTerms: studentData.agreeTerms
+        first_name: finalData.firstName,
+        last_name: finalData.lastName,
+        email: finalData.email,
+        password: finalData.password,
+        phone: finalData.phone,
+        current_status: finalData.currentStatus,
+        branch: finalData.branch || null,
+        study_year: finalData.studyYear || null,
+        school_college: finalData.schoolCollege,
+        city: finalData.city,
+        program_interest: finalData.programInterest,
+        sales_selections: finalData.salesSelections || [],
+        crm_selections: finalData.crmSelections || [],
+        agree_terms: finalData.agreeTerms
       };
+
+      console.log("🚀 SENDING PAYLOAD:", payload);
 
       const response = await studentAPI.register(payload);
       if (response.data.success) {
@@ -240,12 +259,17 @@ const MultiRoleRegistration = () => {
         localStorage.setItem("user", JSON.stringify(response.data.data));
         message.success("Student registration successful!");
         setTimeout(() => {
-        navigate("/login"); // 👈 Go to Login page
-       }, 1000);
+          navigate("/login");
+        }, 1000);
       }
     } catch (error) {
-      const errorMessage = error.response?.data?.message || "Registration failed. Please try again.";
-      message.error(errorMessage);
+      console.error("Registration Error:", error);
+      if (error.response && error.response.data) {
+         // Show specific backend message (e.g., "Missing fields: school_college")
+         message.error(error.response.data.message || "Registration failed.");
+      } else {
+         message.error("Registration failed. Please check your connection.");
+      }
     } finally {
       setLoading(false);
     }
@@ -253,31 +277,35 @@ const MultiRoleRegistration = () => {
 
   const onTeacherSubmit = async () => {
     try {
-      if (!teacherData.agreeTerms) {
+      const values = await teacherForm.validateFields();
+      const finalData = { ...teacherData, ...values };
+
+      if (!finalData.agreeTerms) {
         message.error("You must accept terms and conditions");
         return;
       }
 
       setLoading(true);
+
       const payload = {
-        firstName: teacherData.firstName,
-        lastName: teacherData.lastName,
-        email: teacherData.email,
-        password: teacherData.password,
-        phone: teacherData.phone,
-        city: teacherData.city,
-        highestEducation: teacherData.highestEducation,
-        experienceRange: teacherData.experienceRange,
-        institution: teacherData.institution,
-        subjectExpertise: teacherData.subjectExpertise,
-        linkedin: teacherData.linkedin,
-        experiencePdfUrl: teacherData.experiencePdfUrl,
-        teachingMode: teacherData.teachingMode,
-        availability: teacherData.availability,
-        expectedHourlyRate: teacherData.expectedHourlyRate,
-        languages: teacherData.languages,
-        bio: teacherData.bio,
-        agreeTerms: teacherData.agreeTerms
+        first_name: finalData.firstName,
+        last_name: finalData.lastName,
+        email: finalData.email,
+        password: finalData.password,
+        phone: finalData.phone,
+        city: finalData.city,
+        highest_education: finalData.highestEducation,
+        experience_range: finalData.experienceRange,
+        institution: finalData.institution,
+        subject_expertise: finalData.subjectExpertise,
+        linkedin: finalData.linkedin,
+        experience_pdf_url: finalData.experiencePdfUrl,
+        teaching_mode: finalData.teachingMode,
+        availability: finalData.availability,
+        expected_hourly_rate: finalData.expectedHourlyRate,
+        languages: finalData.languages || [],
+        bio: finalData.bio,
+        agree_terms: finalData.agreeTerms
       };
 
       const response = await teacherAPI.register(payload);
@@ -286,12 +314,16 @@ const MultiRoleRegistration = () => {
         localStorage.setItem("user", JSON.stringify(response.data.data));
         message.success("Teacher registration successful!");
         setTimeout(() => {
-        navigate("/login"); 
-       }, 1000);
+          navigate("/login"); 
+        }, 1000);
       }
     } catch (error) {
-      const errorMessage = error.response?.data?.message || "Registration failed. Please try again.";
-      message.error(errorMessage);
+      console.error("Registration Error:", error);
+      if (error.response && error.response.data) {
+         message.error(error.response.data.message || "Registration failed.");
+      } else {
+         message.error("Registration failed. Please check your connection.");
+      }
     } finally {
       setLoading(false);
     }

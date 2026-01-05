@@ -53,7 +53,7 @@ router.post("/add", async (req, res) => {
 });
 
 /* --------------------------------
-   GET CART
+   GET CART (Updated for Teacher Uploads)
 -------------------------------- */
 router.get("/:studentId", async (req, res) => {
   const { studentId } = req.params;
@@ -69,21 +69,29 @@ router.get("/:studentId", async (req, res) => {
         c.id,
         c.courseId,
         c.courseType,
+        
+        -- ✅ Updated: Handle Recommended, Popular, New, AND General (Teacher) courses
         CASE 
           WHEN c.courseType='recommended' THEN rc.title
           WHEN c.courseType='popular' THEN pc.title
           WHEN c.courseType='new' THEN nc.title
+          WHEN c.courseType='general' THEN gen.title
         END AS title,
+        
         CASE 
           WHEN c.courseType='recommended' THEN rc.image
           WHEN c.courseType='popular' THEN pc.image
           WHEN c.courseType='new' THEN nc.image
+          WHEN c.courseType='general' THEN gen.thumbnail_url
         END AS thumbnail,
+        
         CASE 
           WHEN c.courseType='recommended' THEN rc.price
           WHEN c.courseType='popular' THEN pc.price
           WHEN c.courseType='new' THEN nc.price
+          WHEN c.courseType='general' THEN gen.price
         END AS price
+
       FROM cart c
       LEFT JOIN recommended_courses rc 
         ON c.courseType='recommended' AND rc.id=c.courseId
@@ -91,6 +99,11 @@ router.get("/:studentId", async (req, res) => {
         ON c.courseType='popular' AND pc.id=c.courseId
       LEFT JOIN new_courses nc 
         ON c.courseType='new' AND nc.id=c.courseId
+        
+      -- 🟢 NEW: Join Teacher Uploaded Courses (General)
+      LEFT JOIN courses gen 
+        ON c.courseType='general' AND gen.id=c.courseId
+        
       WHERE c.studentId = ?
       `,
       [studentId]

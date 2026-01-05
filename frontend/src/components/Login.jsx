@@ -27,23 +27,35 @@ export default function Login() {
         response = await teacherAPI.login({ email: form.email, password: form.password });
       }
 
-      if (response.data && response.data.success) {
-        const { token, data } = response.data;
+      // Fix: Handle both standard Axios response and Interceptor response
+      const resData = response.data ? response.data : response;
 
-        // These are the items Sidebar will delete on Logout
+      if (resData && resData.success) {
+        const { token, data } = resData;
+
         localStorage.setItem("token", token);
         localStorage.setItem("user", JSON.stringify(data));
 
-        message.success(`Welcome back, ${data.firstName}!`);
+        // Use optional chaining in case firstName is missing
+        message.success(`Welcome back, ${data.firstName || 'User'}!`);
 
-        if (form.role === "student") {
-          navigate("/studenthomescreen");
-        } else {
-          navigate("/dashboard/home");
-        }
+        // Small delay to ensure state is saved before navigation
+        setTimeout(() => {
+          if (form.role === "student") {
+            console.log("Navigating to Student Home...");
+            navigate("/studenthomescreen");
+          } else {
+            console.log("Navigating to Dashboard...");
+            navigate("/dashboard/home");
+          }
+        }, 100);
+      } else {
+        message.error(resData.message || "Login failed");
       }
     } catch (error) {
-      message.error(error.response?.data?.message || "Login Failed. Check credentials.");
+      console.error("Login Error:", error);
+      const errorMsg = error.response?.data?.message || "Login Failed. Check credentials.";
+      message.error(errorMsg);
     } finally {
       setLoading(false);
     }
